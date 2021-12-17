@@ -223,20 +223,23 @@ def absolute_scope_name(relative_scope_name):
 # ================================================================
 
 
-def load_state(fname, saver=None):
+def load_state(fname, saver=None, postfix=None):
     """Load all the variables to the current session from the location <fname>"""
+    load_dir= fname + "/" + str(int(postfix)) + "/"
     if saver is None:
         saver = tf.train.Saver()
-    saver.restore(get_session(), fname)
+    saver.restore(get_session(), load_dir)
     return saver
 
 
-def save_state(fname, saver=None):
+def save_state(fname, saver=None, postfix=None):
     """Save all the variables in the current session to the location <fname>"""
+    save_dir= fname + "/" + str(int(postfix)) + "/"
     os.makedirs(os.path.dirname(fname), exist_ok=True)
+    os.makedirs(os.path.dirname(save_dir), exist_ok=True)
     if saver is None:
         saver = tf.train.Saver()
-    saver.save(get_session(), fname)
+    saver.save(get_session(), save_dir)
     return saver
 
 # ================================================================
